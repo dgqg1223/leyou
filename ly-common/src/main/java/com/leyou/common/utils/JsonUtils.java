@@ -3,10 +3,14 @@ package com.leyou.common.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +26,7 @@ public class JsonUtils {
     private static final Logger logger = LoggerFactory.getLogger(JsonUtils.class);
 
 
-    public static String serialize(Object obj) {
+    public static String toString(Object obj) {
         if (obj == null) {
             return null;
         }
@@ -38,7 +42,7 @@ public class JsonUtils {
     }
 
 
-    public static <T> T parse(String json, Class<T> tClass) {
+    public static <T> T toBean(String json, Class<T> tClass) {
         try {
             return mapper.readValue(json, tClass);
         } catch (IOException e) {
@@ -47,7 +51,7 @@ public class JsonUtils {
         }
     }
 
-    public static <E> List<E> parseList(String json, Class<E> eClass) {
+    public static <E> List<E> toList(String json, Class<E> eClass) {
         try {
             return mapper.readValue(json, mapper.getTypeFactory().constructCollectionType(List.class, eClass));
         } catch (IOException e) {
@@ -56,7 +60,7 @@ public class JsonUtils {
         }
     }
 
-    public static <K, V> Map<K, V> parseMap(String json, Class<K> kClass, Class<V> vClass) {
+    public static <K, V> Map<K, V> toMap(String json, Class<K> kClass, Class<V> vClass) {
         try {
             return mapper.readValue(json, mapper.getTypeFactory().constructMapType(Map.class, kClass, vClass));
         } catch (IOException e) {
@@ -73,4 +77,42 @@ public class JsonUtils {
             return null;
         }
     }
+
+//    @Data
+//    @AllArgsConstructor
+//    @NoArgsConstructor
+//    static class User {
+//        String name;
+//        Integer age;
+//    }
+//
+//    public static void main(String[] args) {
+//        User user = new User("jack", 21);
+//        //toString
+//        String json = toString(user);
+////        System.out.println("json = " + json);
+//
+//        //toBean 反序列化
+//        User user1 = toBean(json, User.class);
+////        System.out.println("user1 = " + user1);
+//
+//        //toList
+//        json = "[20,-10,5,15]";
+//        List<Integer> list = toList(json, Integer.class);
+////        System.out.println("list = " + list);
+//
+//        //toMap
+//        json = "{\"name\":\"jack\",\"age\":\"21\"}";
+//        Map<String,String> map =toMap(json,String.class,String.class);
+//        System.out.println("map = " + map);
+//
+//        //复杂对象
+//        json = "[{\"name\":\"jack\",\"age\":\"21\"},{\"name\":\"Rose\",\"age\":\"18\"}]";
+//        List<Map<String, String>> maps = nativeRead(json, new TypeReference<List<Map<String, String>>>() {
+//        });
+//        for (Map<String, String> map1 : maps) {
+//            System.out.println("map = " + map1);
+//        }
+//
+//    }
 }
