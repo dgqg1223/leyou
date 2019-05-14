@@ -6,5 +6,5 @@ import lombok.Data;
 public class Item {
     private Integer id;
     private String name;
-    private long price;
+    private Long price;
 }

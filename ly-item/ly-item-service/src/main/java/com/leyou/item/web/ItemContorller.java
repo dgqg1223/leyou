@@ -1,9 +1,11 @@
-package item.web;
+package com.leyou.item.web;
 
+
+import com.leyou.common.emums.ExceptionEnum;
+import com.leyou.common.exception.LyException;
 import com.leyou.item.pojo.Item;
-import item.service.ItemService;
+import com.leyou.item.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.context.restart.RestartEndpoint;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,11 +19,11 @@ public class ItemContorller {
     @Autowired
     private ItemService itemService;
 
-
     @PostMapping
     public ResponseEntity<Item> saveItem(Item item) {
-        if (item.getName()==null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        System.out.println("执行了");
+        if (item.getPrice() == null) {
+            throw new LyException(ExceptionEnum.PRICE_CANNOT_BE_NOLL);
         }
         item = itemService.SaveItem(item);
         return ResponseEntity.status(HttpStatus.CREATED).body(item);
