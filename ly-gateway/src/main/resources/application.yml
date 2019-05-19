@@ -9,7 +9,7 @@ eureka:
       defaultZone: http://127.0.0.1:10086/eureka
 zuul:
   prefix: /api #添加路由前缀
-  soutes:
+  routes:
     item-service: /item/**
 hystrix:
   command:
@@ -23,4 +23,5 @@ ribbon:
   ReadTimeout: 3500 #ribbon读取超时时长
   MaxAutoRetries: 0 # 当前服务重试次数
   MaxAutoRetriesNextServer: 0 #切换服务重试次数
+
 
