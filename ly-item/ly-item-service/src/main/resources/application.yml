@@ -6,7 +6,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/leyou
     username: root
-    password:
+    password: 
 eureka:
   client:
     service-url:
@@ -14,3 +14,6 @@ eureka:
   instance:
     prefer-ip-address: true
     ip-address: 127.0.0.1
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

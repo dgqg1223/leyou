@@ -11,6 +11,7 @@ import com.leyou.item.pojo.Brand;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import tk.mybatis.mapper.entity.Example;
 
@@ -39,18 +40,36 @@ public class BrandService {
         }
         //排序
         if (StringUtils.isNotBlank(sortBy)) {
-            String orderByClause = sortBy + (desc ? " DESC":" ASC");
+            String orderByClause = sortBy + (desc ? " DESC" : " ASC");
             example.setOrderByClause(orderByClause);
         }
 
         //查询
         List<Brand> list = brandMapper.selectByExample(example);
-        if(CollectionUtils.isEmpty(list)){
-            throw new LyException(ExceptionEnum.BRABD_BOT_FOUND);
+        if (CollectionUtils.isEmpty(list)) {
+            throw new LyException(ExceptionEnum.BRAND_BOT_FOUND);
         }
         //解析分页结果
         PageInfo<Brand> info = new PageInfo<>(list);
 
-        return new PageResult<>(info.getTotal(),list);
+        return new PageResult<>(info.getTotal(), list);
+    }
+
+    @Transactional
+    public void saveBrand(Brand brand, List<Long> cids) {
+        brand.setId(null);
+        int count = brandMapper.insert(brand);
+        if (count != 1) {
+            throw new LyException(ExceptionEnum.BRAND_SAVE_ERROD);
+        }
+        //新增中间表
+        for (Long cid : cids) {
+            count = brandMapper.insertCategoryBrand(cid, brand.getId());
+            if (count != 1) {
+                throw new LyException(ExceptionEnum.BRAND_SAVE_ERROD);
+            }
+        }
+
+
     }
 }
