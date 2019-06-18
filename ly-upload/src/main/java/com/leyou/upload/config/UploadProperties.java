@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @ConfigurationProperties(prefix = "ly.upload")
-public class UploadProperties {
+public class   UploadProperties {
     private String baseUrl;
     private List<String> allowTypes;
 }
