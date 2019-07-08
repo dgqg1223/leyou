@@ -47,7 +47,7 @@ public class BrandService {
         //查询
         List<Brand> list = brandMapper.selectByExample(example);
         if (CollectionUtils.isEmpty(list)) {
-            throw new LyException(ExceptionEnum.BRAND_BOT_FOUND);
+            throw new LyException(ExceptionEnum.BRAND_NOT_FOUND);
         }
         //解析分页结果
         PageInfo<Brand> info = new PageInfo<>(list);
@@ -69,7 +69,22 @@ public class BrandService {
                 throw new LyException(ExceptionEnum.BRAND_SAVE_ERROD);
             }
         }
+    }
 
+    public Brand queryById(Long id){
+        Brand brand = brandMapper.selectByPrimaryKey(id);
+        if(brand == null){
+            throw new LyException(ExceptionEnum.BRAND_NOT_FOUND);
+        }
+        return brand;
+    }
 
+    public List<Brand> queryBrandByCid(Long cid) {
+
+        List<Brand> list = brandMapper.queryByCategoryId(cid);
+        if (CollectionUtils.isEmpty(list)){
+            throw new LyException(ExceptionEnum.BRAND_NOT_FOUND);
+        }
+        return list;
     }
 }
