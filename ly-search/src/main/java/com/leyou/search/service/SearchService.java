@@ -116,6 +116,6 @@ public class SearchService {
         goods.setSpecs(specs); // 所有的可搜索的规格参数
         goods.setSubTitle(spu.getSubTitle());
         return goods;
-    } 
+    }
 
 }
